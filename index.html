@@ -80,7 +80,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between phase-theme-0 theme-transition bg-slate-950 text-slate-100 overflow-x-hidden selection:bg-blue-500 selection:text-white">
+<body class="min-h-screen flex flex-col phase-theme-0 theme-transition bg-slate-950 text-slate-100 overflow-x-hidden selection:bg-blue-500 selection:text-white">
 
   <!-- ENCABEZADO PRINCIPAL -->
   <header class="w-full border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50 px-4 py-3">
@@ -126,12 +126,12 @@
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-center justify-center">
+  <!-- CONTENIDO PRINCIPAL (COMPACTO Y PEAGADO SIN ESPACIO) -->
+  <main class="w-full max-w-7xl mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start content-start flex-grow-0">
     
     <!-- ÁREA DEL CANVAS / SIMULACIÓN (IZQUIERDA EN DESKTOP) -->
     <section class="lg:col-span-7 w-full flex flex-col gap-3">
-      <div class="relative w-full h-[300px] sm:h-[350px] bg-slate-900/90 rounded-2xl border dynamic-accent-border dynamic-accent-shadow overflow-hidden flex items-center justify-center">
+      <div class="relative w-full h-[320px] sm:h-[380px] bg-slate-900/90 rounded-2xl border dynamic-accent-border dynamic-accent-shadow overflow-hidden flex items-center justify-center">
         <canvas id="simCanvas" class="w-full h-full block"></canvas>
       </div>
       
@@ -149,8 +149,8 @@
       </div>
     </section>
 
-    <!-- PANEL EXPLICATIVO DE LA FASE (DERECHA EN DESKTOP) -->
-    <section class="lg:col-span-5 w-full flex flex-col">
+    <!-- PANEL EXPLICATIVO DE LA FASE (DERECHA EN DESKTOP / INMEDIATAMENTE DEBAJO EN MÓVIL) -->
+    <section class="lg:col-span-5 w-full flex flex-col mt-0">
       <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 backdrop-blur-md dynamic-accent-border dynamic-accent-shadow flex flex-col gap-3">
         
         <!-- Encabezado de la fase -->
@@ -189,7 +189,7 @@
   </main>
 
   <!-- PIE DE PÁGINA -->
-  <footer class="w-full border-t border-slate-800/80 bg-slate-900/40 py-2.5 px-4 text-center text-xs text-slate-500">
+  <footer class="w-full border-t border-slate-800/80 bg-slate-900/40 py-2.5 px-4 text-center text-xs text-slate-500 mt-auto">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
       <p>© 2026 Fases de la Respiración. Desarrollado por <span class="text-slate-300 font-semibold">Alfredo Belandria</span>.</p>
       <p class="hidden sm:block">Usa las flechas del teclado <span class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-400">←</span> <span class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-400">→</span> para navegar entre fases.</p>
@@ -291,7 +291,7 @@
       const data = phasesData[currentPhase];
 
       // Actualizar clases de tema global
-      document.body.className = `min-h-screen flex flex-col justify-between ${data.themeClass} theme-transition bg-slate-950 text-slate-100 overflow-x-hidden selection:bg-blue-500 selection:text-white`;
+      document.body.className = `min-h-screen flex flex-col phase-theme-0 theme-transition bg-slate-950 text-slate-100 overflow-x-hidden selection:bg-blue-500 selection:text-white`;
 
       // Actualizar textos
       document.getElementById('phase-number-tag').innerText = `FASE ${currentPhase + 1}`;
@@ -336,10 +336,10 @@
       if (ctx && canvas) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        const scale = Math.min(canvas.width / 600, canvas.height / 350);
+        const scale = Math.min(canvas.width / 600, canvas.height / 380);
         ctx.save();
         const offsetX = (canvas.width - 600 * scale) / 2;
-        const offsetY = (canvas.height - 350 * scale) / 2;
+        const offsetY = (canvas.height - 380 * scale) / 2;
         ctx.translate(offsetX, offsetY);
         ctx.scale(scale, scale);
 
