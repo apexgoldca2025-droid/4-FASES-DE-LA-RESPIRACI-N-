@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FASES DE LA RESPIRACIÓN - Alfredo Belandria</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts (Inter) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0b0f19;
+      color: #f3f4f6;
+    }
+
+    /* Animaciones y temas dinámicos según fase */
+    .theme-transition {
+      transition: all 0.4s ease-in-out;
+    }
+
+    /* Fase 0: Ventilación (Azul) */
+    .phase-theme-0 {
+      --accent-color: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.25);
+      --accent-border: rgba(59, 130, 246, 0.4);
+    }
+    /* Fase 1: Difusión (Verde) */
+    .phase-theme-1 {
+      --accent-color: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.25);
+      --accent-border: rgba(16, 185, 129, 0.4);
+    }
+    /* Fase 2: Transporte (Rojo) */
+    .phase-theme-2 {
+      --accent-color: #ef4444;
+      --accent-glow: rgba(239, 68, 68, 0.25);
+      --accent-border: rgba(239, 68, 68, 0.4);
+    }
+    /* Fase 3: Utilización (Amarillo) */
+    .phase-theme-3 {
+      --accent-color: #eab308;
+      --accent-glow: rgba(234, 179, 8, 0.25);
+      --accent-border: rgba(234, 179, 8, 0.4);
+    }
+
+    .dynamic-accent-border {
+      border-color: var(--accent-border);
+    }
+    .dynamic-accent-bg {
+      background-color: var(--accent-color);
+    }
+    .dynamic-accent-text {
+      color: var(--accent-color);
+    }
+    .dynamic-accent-shadow {
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #374151;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #4b5563;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between phase-theme-0 theme-transition bg-slate-950 text-slate-100 overflow-x-hidden selection:bg-blue-500 selection:text-white">
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <header class="w-full border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50 px-4 py-3">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Título y Autor -->
+      <div class="text-center md:text-left">
+        <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white uppercase">
+          FASES DE LA RESPIRACIÓN
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400 font-medium">
+          Desarrollado por: <span class="font-semibold text-slate-200">Alfredo Belandria</span>
+        </p>
+      </div>
+
+      <!-- BOTONES DE NAVEGACIÓN DE FASES -->
+      <nav class="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center">
+        <!-- Fase 1: Ventilación -->
+        <button onclick="setPhase(0)" id="btn-phase-0" class="phase-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-blue-600/20 text-blue-400 border border-blue-500/40 hover:bg-blue-600/30">
+          <span class="w-5 h-5 rounded-md bg-blue-500 text-slate-950 font-black text-xs flex items-center justify-center">1</span>
+          <span>Ventilación</span>
+        </button>
+
+        <!-- Fase 2: Difusión -->
+        <button onclick="setPhase(1)" id="btn-phase-1" class="phase-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-slate-800 text-slate-400 border border-slate-700 hover:bg-emerald-600/20 hover:text-emerald-400">
+          <span class="w-5 h-5 rounded-md bg-emerald-500 text-slate-950 font-black text-xs flex items-center justify-center">2</span>
+          <span>Difusión</span>
+        </button>
+
+        <!-- Fase 3: Transporte -->
+        <button onclick="setPhase(2)" id="btn-phase-2" class="phase-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-slate-800 text-slate-400 border border-slate-700 hover:bg-red-600/20 hover:text-red-400">
+          <span class="w-5 h-5 rounded-md bg-red-500 text-slate-950 font-black text-xs flex items-center justify-center">3</span>
+          <span>Transporte</span>
+        </button>
+
+        <!-- Fase 4: Utilización -->
+        <button onclick="setPhase(3)" id="btn-phase-3" class="phase-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-slate-800 text-slate-400 border border-slate-700 hover:bg-yellow-600/20 hover:text-yellow-400">
+          <span class="w-5 h-5 rounded-md bg-yellow-500 text-slate-950 font-black text-xs flex items-center justify-center">4</span>
+          <span>Utilización</span>
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
+    
+    <!-- ÁREA DEL CANVAS / SIMULACIÓN (IZQUIERDA EN DESKTOP) -->
+    <section class="lg:col-span-7 w-full flex flex-col gap-3">
+      <div class="relative w-full aspect-square sm:aspect-[4/3] bg-slate-900/90 rounded-2xl border dynamic-accent-border dynamic-accent-shadow overflow-hidden flex items-center justify-center">
+        <canvas id="simCanvas" class="w-full h-full block"></canvas>
+      </div>
+      
+      <!-- Controles de navegación rápida inferiores -->
+      <div class="flex items-center justify-between gap-3 bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+        <button onclick="prevPhase()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold transition-all flex items-center gap-2">
+          <i class="fa-solid fa-arrow-left"></i> Anterior
+        </button>
+        <span id="phase-counter-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+          Fase 1 de 4
+        </span>
+        <button onclick="nextPhase()" id="btn-next-step" class="px-4 py-2 rounded-lg dynamic-accent-bg text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-md flex items-center gap-2 hover:opacity-90">
+          Siguiente <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- PANEL EXPLICATIVO DE LA FASE (DERECHA EN DESKTOP) -->
+    <section class="lg:col-span-5 w-full flex flex-col gap-4">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 backdrop-blur-md dynamic-accent-border dynamic-accent-shadow flex flex-col gap-4">
+        
+        <!-- Encabezado de la fase -->
+        <div class="border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2 mb-1">
+            <span id="phase-number-tag" class="text-xs font-black px-2 py-0.5 rounded dynamic-accent-bg text-slate-950 uppercase tracking-wider">
+              FASE 1
+            </span>
+            <span id="phase-subtitle" class="text-xs font-medium text-slate-400 uppercase tracking-widest">
+              FISIOLOGÍA PULMONAR
+            </span>
+          </div>
+          <h2 id="phase-title" class="text-xl sm:text-2xl font-black text-white">
+            Ventilación Pulmonar
+          </h2>
+        </div>
+
+        <!-- Descripción Resumida -->
+        <p id="phase-description" class="text-slate-300 text-sm sm:text-base leading-relaxed">
+          Proceso mecánico de intercambio de aire entre la atmósfera y los alveolos pulmonares, mediante la inspiración y espiración coordinada por el diafragma.
+        </p>
+
+        <!-- Puntos Clave / Mecanismos -->
+        <div class="space-y-3 pt-2">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-microscope dynamic-accent-text"></i> Aspectos Fisiológicos Clave
+          </h3>
+          <ul id="phase-key-points" class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <!-- Insertado dinámicamente -->
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="w-full border-t border-slate-800/80 bg-slate-900/40 py-3 px-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>© 2026 Fases de la Respiración. Desarrollado por <span class="text-slate-300 font-semibold">Alfredo Belandria</span>.</p>
+      <p class="hidden sm:block">Usa las flechas del teclado <span class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-400">←</span> <span class="bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 text-slate-400">→</span> para navegar entre fases.</p>
+    </div>
+  </footer>
+
+  <!-- SCRIPT COMPLETO DE LÓGICA Y DIBUJO -->
+  <script>
+    // --- DATOS DE LAS FASES ---
+    const phasesData = [
+      {
+        id: 0,
+        title: "Ventilación Pulmonar",
+        subtitle: "Mecánica Respiratoria",
+        themeClass: "phase-theme-0",
+        btnColor: "#3b82f6",
+        description: "Es el proceso mecánico mediante el cual el aire atmosférico entra a los pulmones (inspiración) y el aire con dióxido de carbono es expulsado (espiración), impulsado por cambios de presión intrapleural y la contracción diafragmática.",
+        keyPoints: [
+          "<strong>Inspiración:</strong> El diafragma se contrae y desciende, expandiendo la cavidad torácica y generando presión negativa.",
+          "<strong>Espiración:</strong> El diafragma se relaja y asciende, reduciendo el volumen pulmonar y expulsando el aire.",
+          "<strong>División de flujo:</strong> El aire inhalado viaja por la tráquea y se divide hacia ambos pulmones (izquierdo y derecho)."
+        ]
+      },
+      {
+        id: 1,
+        title: "Difusión de Gases",
+        subtitle: "Intercambio Alveolo-Capilar",
+        themeClass: "phase-theme-1",
+        btnColor: "#10b981",
+        description: "Paso del oxígeno desde los alveolos a la sangre de los capilares pulmonares y del dióxido de carbono en sentido inverso, impulsado estrictamente por gradientes de presión parcial (difusión pasiva).",
+        keyPoints: [
+          "<strong>Gradiente de PO₂:</strong> La presión alveolar de O₂ es mayor que en la sangre venosa capilar (~104 mmHg vs ~40 mmHg).",
+          "<strong>Gradiente de PCO₂:</strong> La presión capilar de CO₂ es mayor que en el alveolo (~45 mmHg vs ~40 mmHg).",
+          "<strong>Membrana Alveolocapilar:</strong> Capa ultra delgada que permite un intercambio gaseoso eficiente en milisegundos."
+        ]
+      },
+      {
+        id: 2,
+        title: "Transporte de Gases",
+        subtitle: "Circulación Sanguínea",
+        themeClass: "phase-theme-2",
+        btnColor: "#ef4444",
+        description: "Transporte del O₂ desde los pulmones a los tejidos corporales y del CO₂ desde los tejidos hacia los pulmones a través del sistema cardiovascular y la hemoglobina.",
+        keyPoints: [
+          "<strong>Oximióglobina / Oxhemoglobina:</strong> Más del 98% del O₂ viaja unido al grupo hemo (Fe²⁺) de la hemoglobina.",
+          "<strong>Transporte de CO₂:</strong> Se transporta disuelto, unido a hemoglobina y principalmente en forma de Bicarbonato (HCO₃⁻).",
+          "<strong>Gasto Cardíaco:</strong> El flujo sanguíneo continuo asegura el suministro tisular ininterrumpido."
+        ]
+      },
+      {
+        id: 3,
+        title: "Utilización de Oxígeno",
+        subtitle: "Respiración Celular Tisular",
+        themeClass: "phase-theme-3",
+        btnColor: "#eab308",
+        description: "Consumo de O₂ a nivel mitocondrial en las células para oxidar nutrientes (glucosa) y sintetizar energía en forma de ATP mediante la cadena de transporte de electrones.",
+        keyPoints: [
+          "<strong>Mitocondria:</strong> Organelo efector donde ocurre la fosforilación oxidativa.",
+          "<strong>Aceptador Final:</strong> El O₂ actúa como aceptor final de electrones para formar moléculas de agua (H₂O).",
+          "<strong>Generación Energética:</strong> Produce dióxido de carbono (CO₂) como subproducto metabólico a ser eliminado."
+        ]
+      }
+    ];
+
+    let currentPhase = 0;
+    let canvas, ctx;
+    let animFrameId;
+    let tick = 0;
+
+    // --- INICIALIZACIÓN ---
+    window.addEventListener('DOMContentLoaded', () => {
+      canvas = document.getElementById('simCanvas');
+      ctx = canvas.getContext('2d');
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      // Eventos de teclado
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') nextPhase();
+        if (e.key === 'ArrowLeft') prevPhase();
+      });
+
+      setPhase(0);
+      requestAnimationFrame(renderLoop);
+    });
+
+    function resizeCanvas() {
+      if (!canvas) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+    }
+
+    // --- CAMBIO DE FASE Y TEMAS ---
+    function setPhase(index) {
+      currentPhase = index;
+      const data = phasesData[currentPhase];
+
+      // Actualizar clases de tema global
+      document.body.className = `min-h-screen flex flex-col justify-between ${data.themeClass} theme-transition bg-slate-950 text-slate-100 overflow-x-hidden selection:bg-blue-500 selection:text-white`;
+
+      // Actualizar textos
+      document.getElementById('phase-number-tag').innerText = `FASE ${currentPhase + 1}`;
+      document.getElementById('phase-subtitle').innerText = data.subtitle;
+      document.getElementById('phase-title').innerText = data.title;
+      document.getElementById('phase-description').innerText = data.description;
+      document.getElementById('phase-counter-badge').innerText = `Fase ${currentPhase + 1} de 4`;
+
+      // Actualizar Puntos Clave
+      const keyPointsList = document.getElementById('phase-key-points');
+      keyPointsList.innerHTML = '';
+      data.keyPoints.forEach(point => {
+        const li = document.createElement('li');
+        li.className = 'flex items-start gap-2 bg-slate-800/40 p-2.5 rounded-lg border border-slate-800';
+        li.innerHTML = `<i class="fa-solid fa-chevron-right text-xs mt-1 dynamic-accent-text"></i> <span>${point}</span>`;
+        keyPointsList.appendChild(li);
+      });
+
+      // Actualizar Botones de Navegación Estilos
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById(`btn-phase-${i}`);
+        if (!btn) continue;
+        if (i === currentPhase) {
+          btn.className = "phase-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-slate-700 text-white border dynamic-accent-border shadow-md scale-105";
+        } else {
+          btn.className = "phase-btn px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-lg font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-all bg-slate-800/80 text-slate-400 border border-slate-700/60 hover:bg-slate-800 hover:text-slate-200 opacity-70";
+        }
+      }
+    }
+
+    function nextPhase() {
+      setPhase((currentPhase + 1) % 4);
+    }
+
+    function prevPhase() {
+      setPhase((currentPhase - 1 + 4) % 4);
+    }
+
+    // --- BUCLE DE ANIMACIÓN PRINCIPAL ---
+    function renderLoop() {
+      tick++;
+      if (ctx && canvas) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Calcular escala responsiva para mantener coherencia
+        const scale = Math.min(canvas.width / 600, canvas.height / 450);
+        ctx.save();
+        ctx.scale(scale, scale);
+
+        switch (currentPhase) {
+          case 0: drawPhaseVentilation(tick); break;
+          case 1: drawPhaseDiffusion(tick); break;
+          case 2: drawPhaseTransport(tick); break;
+          case 3: drawPhaseUtilisation(tick); break;
+        }
+
+        ctx.restore();
+      }
+      animFrameId = requestAnimationFrame(renderLoop);
+    }
+
+    // --- DIBUJO FASE 1: VENTILACIÓN ---
+    function drawPhaseVentilation(t) {
+      const cycle = (Math.sin(t * 0.03) + 1) / 2; // 0 a 1 (Inspiración / Espiración)
+      const lungExpansion = 1 + cycle * 0.15;
+
+      // Tráquea y Bronquios
+      ctx.strokeStyle = "#475569";
+      ctx.lineWidth = 18;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(300, 40);
+      ctx.lineTo(300, 140);
+      ctx.stroke();
+
+      // Bronquio Izquierdo y Derecho
+      ctx.lineWidth = 12;
+      ctx.beginPath();
+      ctx.moveTo(300, 140);
+      ctx.lineTo(210, 190);
+      ctx.moveTo(300, 140);
+      ctx.lineTo(390, 190);
+      ctx.stroke();
+
+      // Dibujar Pulmones Anatómicos
+      drawAnatomicalLung(190, 240, -1, lungExpansion); // Pulmón Izquierdo
+      drawAnatomicalLung(410, 240, 1, lungExpansion);  // Pulmón Derecho
+
+      // Diafragma (Bajado correctamente a la base pulmonar)
+      const diaphragmY = 380 + cycle * 22;
+      ctx.fillStyle = "#3b82f6";
+      ctx.beginPath();
+      ctx.moveTo(120, diaphragmY);
+      ctx.quadraticCurveTo(300, diaphragmY - 45 + (1 - cycle) * 20, 480, diaphragmY);
+      ctx.quadraticCurveTo(300, diaphragmY - 20, 120, diaphragmY);
+      ctx.fill();
+
+      // Etiqueta Diafragma
+      ctx.fillStyle = "#93c5fd";
+      ctx.font = "bold 12px Inter";
+      ctx.textAlign = "center";
+      ctx.fillText(cycle > 0.5 ? "Diafragma Contraído (Inspiración)" : "Diafragma Relajado (Espiración)", 300, diaphragmY + 22);
+
+      // Partículas de Aire Divididas
+      const numParticles = 14;
+      for (let i = 0; i < numParticles; i++) {
+        const offset = (i / numParticles + t * 0.01) % 1;
+        let px, py;
+        const isInspirating = Math.cos(t * 0.03) > 0;
+
+        if (isInspirating) {
+          // Entrando por tráquea y dividiéndose a bronquios
+          if (offset < 0.4) {
+            px = 300;
+            py = 40 + offset * 2.5 * 100;
+          } else {
+            const side = i % 2 === 0 ? -1 : 1;
+            const progress = (offset - 0.4) / 0.6;
+            px = 300 + side * progress * 110;
+            py = 140 + progress * 100;
+          }
+          ctx.fillStyle = "#60a5fa";
+        } else {
+          // Saliendo de bronquios y unificándose en tráquea
+          const side = i % 2 === 0 ? -1 : 1;
+          if (offset < 0.6) {
+            const progress = offset / 0.6;
+            px = (300 + side * 110) - side * progress * 110;
+            py = 240 - progress * 100;
+          } else {
+            const progress = (offset - 0.6) / 0.4;
+            px = 300;
+            py = 140 - progress * 100;
+          }
+          ctx.fillStyle = "#f87171";
+        }
+
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // Función auxiliar para forma anatómica del pulmón
+    function drawAnatomicalLung(centerX, centerY, dir, scale) {
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.scale(dir * scale, scale);
+
+      ctx.fillStyle = "rgba(239, 68, 68, 0.35)";
+      ctx.strokeStyle = "#ef4444";
+      ctx.lineWidth = 3;
+
+      ctx.beginPath();
+      // Ápex (Arriba)
+      ctx.moveTo(0, -90);
+      // Curva lateral exterior
+      ctx.bezierCurveTo(70, -70, 90, 20, 65, 80);
+      // Base inferior cóncava
+      ctx.bezierCurveTo(40, 75, -20, 75, -50, 70);
+      // Escotadura media / incisura cardíaca
+      ctx.bezierCurveTo(-60, 20, -40, -40, 0, -90);
+      ctx.closePath();
+
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // --- DIBUJO FASE 2: DIFUSIÓN ---
+    function drawPhaseDiffusion(t) {
+      // Pared Alveolar (Izquierda)
+      ctx.fillStyle = "rgba(16, 185, 129, 0.15)";
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(150, 225, 140, -Math.PI / 2, Math.PI / 2, true);
+      ctx.stroke();
+      ctx.fill();
+
+      // Capilar Sanguíneo (Derecha)
+      ctx.fillStyle = "rgba(239, 68, 68, 0.15)";
+      ctx.strokeStyle = "#ef4444";
+      ctx.beginPath();
+      ctx.arc(450, 225, 140, -Math.PI / 2, Math.PI / 2, false);
+      ctx.stroke();
+      ctx.fill();
+
+      // Membrana Alveolocapilar (Centro)
+      ctx.strokeStyle = "#94a3b8";
+      ctx.lineWidth = 4;
+      ctx.setLineDash([6, 6]);
+      ctx.beginPath();
+      ctx.moveTo(300, 60);
+      ctx.lineTo(300, 390);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "bold 11px Inter";
+      ctx.textAlign = "center";
+      ctx.fillText("ALVEOLO (PO₂ ~104 mmHg)", 160, 90);
+      ctx.fillText("CAPILAR (PO₂ ~40 mmHg)", 440, 90);
+
+      // Partículas de O2 cruzando hacia el capilar
+      for (let i = 0; i < 8; i++) {
+        const progress = ((t * 0.015 + i / 8) % 1);
+        const px = 150 + progress * 240;
+        const py = 120 + i * 32;
+
+        ctx.fillStyle = "#38bdf8";
+        ctx.beginPath();
+        ctx.arc(px, py, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "bold 8px Inter";
+        ctx.fillText("O₂", px, py + 3);
+      }
+
+      // Partículas de CO2 cruzando hacia el alveolo
+      for (let i = 0; i < 6; i++) {
+        const progress = ((t * 0.015 + i / 6) % 1);
+        const px = 430 - progress * 240;
+        const py = 140 + i * 40;
+
+        ctx.fillStyle = "#f87171";
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "bold 7px Inter";
+        ctx.fillText("CO₂", px, py + 2.5);
+      }
+    }
+
+    // --- DIBUJO FASE 3: TRANSPORTE ---
+    function drawPhaseTransport(t) {
+      // Vaso Sanguíneo / Capilar amplio
+      ctx.fillStyle = "#1e1b4b";
+      ctx.fillRect(50, 100, 500, 250);
+      ctx.strokeStyle = "#dc2626";
+      ctx.lineWidth = 6;
+      ctx.strokeRect(50, 100, 500, 250);
+
+      // Glóbulos Rojos (Eritrocitos) fluyendo
+      const numCells = 5;
+      for (let i = 0; i < numCells; i++) {
+        const posX = ((t * 1.5 + i * 110) % 520) + 40;
+        const posY = 225 + Math.sin(t * 0.03 + i) * 20;
+
+        if (posX > 50 && posX < 550) {
+          // Cuerpo del eritrocito
+          ctx.fillStyle = "#ef4444";
+          ctx.beginPath();
+          ctx.ellipse(posX, posY, 35, 22, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = "#991b1b";
+          ctx.lineWidth = 3;
+          ctx.stroke();
+
+          // Centro cóncavo
+          ctx.fillStyle = "#b91c1c";
+          ctx.beginPath();
+          ctx.ellipse(posX, posY, 16, 10, 0, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Moléculas de O2 unidas a Hemoglobina
+          ctx.fillStyle = "#38bdf8";
+          ctx.beginPath();
+          ctx.arc(posX - 12, posY - 6, 5, 0, Math.PI * 2);
+          ctx.arc(posX + 12, posY - 6, 5, 0, Math.PI * 2);
+          ctx.arc(posX - 10, posY + 6, 5, 0, Math.PI * 2);
+          ctx.arc(posX + 10, posY + 6, 5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      ctx.fillStyle = "#fca5a5";
+      ctx.font = "bold 12px Inter";
+      ctx.textAlign = "center";
+      ctx.fillText("Flujo de Eritrocitos cargados de Oxhemoglobina (Hb-O₂)", 300, 130);
+    }
+
+    // --- DIBUJO FASE 4: UTILIZACIÓN ---
+    function drawPhaseUtilisation(t) {
+      // Célula / Mitocondria principal
+      ctx.fillStyle = "rgba(234, 179, 8, 0.12)";
+      ctx.strokeStyle = "#eab308";
+      ctx.lineWidth = 4;
+
+      // Forma ovalada mitocondrial
+      ctx.beginPath();
+      ctx.ellipse(300, 225, 200, 120, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Crestas mitocondriales internas
+      ctx.strokeStyle = "rgba(234, 179, 8, 0.4)";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(160, 225);
+      ctx.quadraticCurveTo(200, 160, 240, 225);
+      ctx.quadraticCurveTo(280, 290, 320, 225);
+      ctx.quadraticCurveTo(360, 160, 400, 225);
+      ctx.stroke();
+
+      // Partículas de O2 ingresando
+      const o2Progress = (t * 0.02) % 1;
+      const o2X = 80 + o2Progress * 160;
+      ctx.fillStyle = "#38bdf8";
+      ctx.beginPath();
+      ctx.arc(o2X, 225, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 9px Inter";
+      ctx.textAlign = "center";
+      ctx.fillText("O₂", o2X, 228);
+
+      // Explosión / Generación de ATP (Energía)
+      const pulse = 1 + Math.sin(t * 0.1) * 0.15;
+      ctx.save();
+      ctx.translate(330, 225);
+      ctx.scale(pulse, pulse);
+      ctx.fillStyle = "#facc15";
+      ctx.beginPath();
+      ctx.arc(0, 0, 28, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "black 12px Inter";
+      ctx.fillText("ATP", 0, 4);
+      ctx.restore();
+
+      // Subproducto CO2 saliendo
+      const co2Progress = (t * 0.02) % 1;
+      const co2X = 350 + co2Progress * 170;
+      ctx.fillStyle = "#f87171";
+      ctx.beginPath();
+      ctx.arc(co2X, 225, 7, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "bold 8px Inter";
+      ctx.fillText("CO₂", co2X, 228);
+
+      // Título interior
+      ctx.fillStyle = "#fef08a";
+      ctx.font = "bold 13px Inter";
+      ctx.fillText("RESPIRACIÓN CELULAR (MITOCONDRIA)", 300, 135);
+    }
+  </script>
+</body>
+</html>
