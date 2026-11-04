@@ -127,12 +127,11 @@
   </header>
 
   <!-- CONTENIDO PRINCIPAL -->
-  <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-stretch">
+  <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
     
     <!-- ÁREA DEL CANVAS / SIMULACIÓN (IZQUIERDA EN DESKTOP) -->
-    <section class="lg:col-span-7 w-full flex flex-col justify-between gap-3">
-      <!-- Se ajusta la altura responsiva según el viewport en PC -->
-      <div class="relative w-full h-[320px] sm:h-[400px] lg:h-[430px] bg-slate-900/90 rounded-2xl border dynamic-accent-border dynamic-accent-shadow overflow-hidden flex items-center justify-center">
+    <section class="lg:col-span-7 w-full flex flex-col gap-3">
+      <div class="relative w-full h-[320px] sm:h-[380px] bg-slate-900/90 rounded-2xl border dynamic-accent-border dynamic-accent-shadow overflow-hidden flex items-center justify-center">
         <canvas id="simCanvas" class="w-full h-full block"></canvas>
       </div>
       
@@ -150,40 +149,38 @@
       </div>
     </section>
 
-    <!-- PANEL EXPLICATIVO DE LA FASE (DERECHA EN DESKTOP) -->
-    <section class="lg:col-span-5 w-full flex flex-col justify-between">
-      <div class="h-full bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 backdrop-blur-md dynamic-accent-border dynamic-accent-shadow flex flex-col justify-between gap-3">
+    <!-- PANEL EXPLICATIVO DE LA FASE (DERECHA EN DESKTOP) - SIN ESPACIO VACÍO -->
+    <section class="lg:col-span-5 w-full flex flex-col">
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 backdrop-blur-md dynamic-accent-border dynamic-accent-shadow flex flex-col gap-3">
         
-        <div class="flex flex-col gap-3">
-          <!-- Encabezado de la fase -->
-          <div class="border-b border-slate-800 pb-2.5">
-            <div class="flex items-center gap-2 mb-1">
-              <span id="phase-number-tag" class="text-xs font-black px-2 py-0.5 rounded dynamic-accent-bg text-slate-950 uppercase tracking-wider">
-                FASE 1
-              </span>
-              <span id="phase-subtitle" class="text-xs font-medium text-slate-400 uppercase tracking-widest">
-                FISIOLOGÍA PULMONAR
-              </span>
-            </div>
-            <h2 id="phase-title" class="text-xl sm:text-2xl font-black text-white">
-              Ventilación Pulmonar
-            </h2>
+        <!-- Encabezado de la fase -->
+        <div class="border-b border-slate-800 pb-2">
+          <div class="flex items-center gap-2 mb-1">
+            <span id="phase-number-tag" class="text-xs font-black px-2 py-0.5 rounded dynamic-accent-bg text-slate-950 uppercase tracking-wider">
+              FASE 1
+            </span>
+            <span id="phase-subtitle" class="text-xs font-medium text-slate-400 uppercase tracking-widest">
+              FISIOLOGÍA PULMONAR
+            </span>
           </div>
+          <h2 id="phase-title" class="text-xl sm:text-2xl font-black text-white">
+            Ventilación Pulmonar
+          </h2>
+        </div>
 
-          <!-- Descripción Resumida -->
-          <p id="phase-description" class="text-slate-300 text-sm sm:text-base leading-relaxed">
-            Proceso mecánico de intercambio de aire entre la atmósfera y los alveolos pulmonares, mediante la inspiración y espiración coordinada por el diafragma.
-          </p>
+        <!-- Descripción Resumida -->
+        <p id="phase-description" class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          Proceso mecánico de intercambio de aire entre la atmósfera y los alveolos pulmonares, mediante la inspiración y espiración coordinada por el diafragma.
+        </p>
 
-          <!-- Puntos Clave / Mecanismos -->
-          <div class="space-y-2 pt-1">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
-              <i class="fa-solid fa-microscope dynamic-accent-text"></i> Aspectos Fisiológicos Clave
-            </h3>
-            <ul id="phase-key-points" class="space-y-1.5 text-xs sm:text-sm text-slate-300">
-              <!-- Insertado dinámicamente -->
-            </ul>
-          </div>
+        <!-- Puntos Clave / Mecanismos -->
+        <div class="space-y-2 pt-1">
+          <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-microscope dynamic-accent-text"></i> Aspectos Fisiológicos Clave
+          </h3>
+          <ul id="phase-key-points" class="space-y-1.5 text-xs sm:text-sm text-slate-300">
+            <!-- Insertado dinámicamente -->
+          </ul>
         </div>
 
       </div>
@@ -308,7 +305,7 @@
       keyPointsList.innerHTML = '';
       data.keyPoints.forEach(point => {
         const li = document.createElement('li');
-        li.className = 'flex items-start gap-2 bg-slate-800/40 p-2 sm:p-2.5 rounded-lg border border-slate-800';
+        li.className = 'flex items-start gap-2 bg-slate-800/40 p-2 rounded-lg border border-slate-800';
         li.innerHTML = `<i class="fa-solid fa-chevron-right text-xs mt-1 dynamic-accent-text"></i> <span>${point}</span>`;
         keyPointsList.appendChild(li);
       });
@@ -339,15 +336,10 @@
       if (ctx && canvas) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Ajuste dinámico sin deformar la animación
-        const scaleX = canvas.width / 600;
-        const scaleY = canvas.height / 400;
-        const scale = Math.min(scaleX, scaleY);
-
+        const scale = Math.min(canvas.width / 600, canvas.height / 380);
         ctx.save();
-        // Centrado de la simulación en el Canvas
         const offsetX = (canvas.width - 600 * scale) / 2;
-        const offsetY = (canvas.height - 400 * scale) / 2;
+        const offsetY = (canvas.height - 380 * scale) / 2;
         ctx.translate(offsetX, offsetY);
         ctx.scale(scale, scale);
 
@@ -368,44 +360,38 @@
       const cycle = (Math.sin(t * 0.03) + 1) / 2;
       const lungExpansion = 1 + cycle * 0.15;
 
-      // Tráquea y Bronquios
       ctx.strokeStyle = "#475569";
       ctx.lineWidth = 18;
       ctx.lineCap = "round";
       ctx.beginPath();
       ctx.moveTo(300, 30);
-      ctx.lineTo(300, 130);
+      ctx.lineTo(300, 125);
       ctx.stroke();
 
-      // Bronquio Izquierdo y Derecho
       ctx.lineWidth = 12;
       ctx.beginPath();
-      ctx.moveTo(300, 130);
-      ctx.lineTo(210, 180);
-      ctx.moveTo(300, 130);
-      ctx.lineTo(390, 180);
+      ctx.moveTo(300, 125);
+      ctx.lineTo(210, 175);
+      ctx.moveTo(300, 125);
+      ctx.lineTo(390, 175);
       ctx.stroke();
 
-      // Dibujar Pulmones Anatómicos
-      drawAnatomicalLung(190, 230, -1, lungExpansion);
-      drawAnatomicalLung(410, 230, 1, lungExpansion);
+      drawAnatomicalLung(190, 220, -1, lungExpansion);
+      drawAnatomicalLung(410, 220, 1, lungExpansion);
 
-      // Diafragma
-      const diaphragmY = 360 + cycle * 20;
+      const diaphragmY = 345 + cycle * 18;
       ctx.fillStyle = "#3b82f6";
       ctx.beginPath();
       ctx.moveTo(120, diaphragmY);
-      ctx.quadraticCurveTo(300, diaphragmY - 45 + (1 - cycle) * 20, 480, diaphragmY);
+      ctx.quadraticCurveTo(300, diaphragmY - 40 + (1 - cycle) * 18, 480, diaphragmY);
       ctx.quadraticCurveTo(300, diaphragmY - 20, 120, diaphragmY);
       ctx.fill();
 
-      // Etiqueta Diafragma
       ctx.fillStyle = "#93c5fd";
-      ctx.font = "bold 12px Inter";
+      ctx.font = "bold 11px Inter";
       ctx.textAlign = "center";
-      ctx.fillText(cycle > 0.5 ? "Diafragma Contraído (Inspiración)" : "Diafragma Relajado (Espiración)", 300, diaphragmY + 20);
+      ctx.fillText(cycle > 0.5 ? "Diafragma Contraído (Inspiración)" : "Diafragma Relajado (Espiración)", 300, diaphragmY + 18);
 
-      // Partículas de Aire
       const numParticles = 14;
       for (let i = 0; i < numParticles; i++) {
         const offset = (i / numParticles + t * 0.01) % 1;
@@ -415,12 +401,12 @@
         if (isInspirating) {
           if (offset < 0.4) {
             px = 300;
-            py = 30 + offset * 2.5 * 100;
+            py = 30 + offset * 2.5 * 95;
           } else {
             const side = i % 2 === 0 ? -1 : 1;
             const progress = (offset - 0.4) / 0.6;
             px = 300 + side * progress * 110;
-            py = 130 + progress * 100;
+            py = 125 + progress * 95;
           }
           ctx.fillStyle = "#60a5fa";
         } else {
@@ -428,11 +414,11 @@
           if (offset < 0.6) {
             const progress = offset / 0.6;
             px = (300 + side * 110) - side * progress * 110;
-            py = 230 - progress * 100;
+            py = 220 - progress * 95;
           } else {
             const progress = (offset - 0.6) / 0.4;
             px = 300;
-            py = 130 - progress * 100;
+            py = 125 - progress * 95;
           }
           ctx.fillStyle = "#f87171";
         }
@@ -453,10 +439,10 @@
       ctx.lineWidth = 3;
 
       ctx.beginPath();
-      ctx.moveTo(0, -90);
-      ctx.bezierCurveTo(70, -70, 90, 20, 65, 80);
-      ctx.bezierCurveTo(40, 75, -20, 75, -50, 70);
-      ctx.bezierCurveTo(-60, 20, -40, -40, 0, -90);
+      ctx.moveTo(0, -85);
+      ctx.bezierCurveTo(70, -65, 85, 20, 60, 75);
+      ctx.bezierCurveTo(35, 70, -20, 70, -48, 65);
+      ctx.bezierCurveTo(-55, 20, -38, -38, 0, -85);
       ctx.closePath();
 
       ctx.fill();
@@ -470,14 +456,14 @@
       ctx.strokeStyle = "#10b981";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.arc(150, 200, 130, -Math.PI / 2, Math.PI / 2, true);
+      ctx.arc(150, 190, 120, -Math.PI / 2, Math.PI / 2, true);
       ctx.stroke();
       ctx.fill();
 
       ctx.fillStyle = "rgba(239, 68, 68, 0.15)";
       ctx.strokeStyle = "#ef4444";
       ctx.beginPath();
-      ctx.arc(450, 200, 130, -Math.PI / 2, Math.PI / 2, false);
+      ctx.arc(450, 190, 120, -Math.PI / 2, Math.PI / 2, false);
       ctx.stroke();
       ctx.fill();
 
@@ -485,21 +471,21 @@
       ctx.lineWidth = 4;
       ctx.setLineDash([6, 6]);
       ctx.beginPath();
-      ctx.moveTo(300, 50);
-      ctx.lineTo(300, 350);
+      ctx.moveTo(300, 45);
+      ctx.lineTo(300, 335);
       ctx.stroke();
       ctx.setLineDash([]);
 
       ctx.fillStyle = "#cbd5e1";
       ctx.font = "bold 11px Inter";
       ctx.textAlign = "center";
-      ctx.fillText("ALVEOLO (PO₂ ~104 mmHg)", 160, 75);
-      ctx.fillText("CAPILAR (PO₂ ~40 mmHg)", 440, 75);
+      ctx.fillText("ALVEOLO (PO₂ ~104 mmHg)", 160, 70);
+      ctx.fillText("CAPILAR (PO₂ ~40 mmHg)", 440, 70);
 
       for (let i = 0; i < 8; i++) {
         const progress = ((t * 0.015 + i / 8) % 1);
         const px = 150 + progress * 240;
-        const py = 100 + i * 28;
+        const py = 95 + i * 26;
 
         ctx.fillStyle = "#38bdf8";
         ctx.beginPath();
@@ -513,7 +499,7 @@
       for (let i = 0; i < 6; i++) {
         const progress = ((t * 0.015 + i / 6) % 1);
         const px = 430 - progress * 240;
-        const py = 115 + i * 35;
+        const py = 110 + i * 32;
 
         ctx.fillStyle = "#f87171";
         ctx.beginPath();
@@ -528,15 +514,15 @@
     // --- DIBUJO FASE 3: TRANSPORTE ---
     function drawPhaseTransport(t) {
       ctx.fillStyle = "#1e1b4b";
-      ctx.fillRect(50, 80, 500, 240);
+      ctx.fillRect(50, 75, 500, 230);
       ctx.strokeStyle = "#dc2626";
       ctx.lineWidth = 6;
-      ctx.strokeRect(50, 80, 500, 240);
+      ctx.strokeRect(50, 75, 500, 230);
 
       const numCells = 5;
       for (let i = 0; i < numCells; i++) {
         const posX = ((t * 1.5 + i * 110) % 520) + 40;
-        const posY = 200 + Math.sin(t * 0.03 + i) * 18;
+        const posY = 190 + Math.sin(t * 0.03 + i) * 16;
 
         if (posX > 50 && posX < 550) {
           ctx.fillStyle = "#ef4444";
@@ -565,7 +551,7 @@
       ctx.fillStyle = "#fca5a5";
       ctx.font = "bold 12px Inter";
       ctx.textAlign = "center";
-      ctx.fillText("Flujo de Eritrocitos cargados de Oxhemoglobina (Hb-O₂)", 300, 110);
+      ctx.fillText("Flujo de Eritrocitos cargados de Oxhemoglobina (Hb-O₂)", 300, 105);
     }
 
     // --- DIBUJO FASE 4: UTILIZACIÓN ---
@@ -575,33 +561,33 @@
       ctx.lineWidth = 4;
 
       ctx.beginPath();
-      ctx.ellipse(300, 200, 190, 115, 0, 0, Math.PI * 2);
+      ctx.ellipse(300, 190, 180, 110, 0, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
 
       ctx.strokeStyle = "rgba(234, 179, 8, 0.4)";
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(160, 200);
-      ctx.quadraticCurveTo(200, 140, 240, 200);
-      ctx.quadraticCurveTo(280, 260, 320, 200);
-      ctx.quadraticCurveTo(360, 140, 400, 200);
+      ctx.moveTo(160, 190);
+      ctx.quadraticCurveTo(200, 135, 240, 190);
+      ctx.quadraticCurveTo(280, 245, 320, 190);
+      ctx.quadraticCurveTo(360, 135, 400, 190);
       ctx.stroke();
 
       const o2Progress = (t * 0.02) % 1;
       const o2X = 80 + o2Progress * 160;
       ctx.fillStyle = "#38bdf8";
       ctx.beginPath();
-      ctx.arc(o2X, 200, 7, 0, Math.PI * 2);
+      ctx.arc(o2X, 190, 7, 0, Math.PI * 2);
       ctx.fill();
       ctx.fillStyle = "#ffffff";
       ctx.font = "bold 9px Inter";
       ctx.textAlign = "center";
-      ctx.fillText("O₂", o2X, 203);
+      ctx.fillText("O₂", o2X, 193);
 
       const pulse = 1 + Math.sin(t * 0.1) * 0.15;
       ctx.save();
-      ctx.translate(330, 200);
+      ctx.translate(330, 190);
       ctx.scale(pulse, pulse);
       ctx.fillStyle = "#facc15";
       ctx.beginPath();
@@ -616,15 +602,15 @@
       const co2X = 350 + co2Progress * 170;
       ctx.fillStyle = "#f87171";
       ctx.beginPath();
-      ctx.arc(co2X, 200, 7, 0, Math.PI * 2);
+      ctx.arc(co2X, 190, 7, 0, Math.PI * 2);
       ctx.fill();
       ctx.fillStyle = "#ffffff";
       ctx.font = "bold 8px Inter";
-      ctx.fillText("CO₂", co2X, 203);
+      ctx.fillText("CO₂", co2X, 193);
 
       ctx.fillStyle = "#fef08a";
       ctx.font = "bold 13px Inter";
-      ctx.fillText("RESPIRACIÓN CELULAR (MITOCONDRIA)", 300, 115);
+      ctx.fillText("RESPIRACIÓN CELULAR (MITOCONDRIA)", 300, 110);
     }
   </script>
 </body>
